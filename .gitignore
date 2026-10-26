@@ -1,0 +1,13 @@
+target/
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+
+*.json
+*.tripwire
+.sigwarden-baseline.json
+.vscode/
+.idea/
