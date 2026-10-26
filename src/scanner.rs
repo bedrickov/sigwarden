@@ -13,13 +13,18 @@ use crate::types::*;
 pub struct Scanner;
 
 impl Scanner {
-    fn is_ignored(path: &Path) -> bool {
-        let path_str = path.to_string_lossy();
-        path_str.contains(".git")
-            || path_str.contains("target")
-            || path_str.contains("node_modules")
-            || path_str.contains("build")
-            || path_str.contains(".vs")
+    pub fn is_ignored(path: &Path) -> bool {
+        // Inspect exact directory/file component names rather than naive substring matching
+        // to prevent erroneously skipping legitimate files like `target_spec.rs` or `build_script.py`
+        path.components().any(|c| {
+            let s = c.as_os_str().to_string_lossy();
+            s == ".git"
+                || s == "target"
+                || s == "node_modules"
+                || s == "build"
+                || s == ".vs"
+                || s == ".idea"
+        })
     }
 
     pub fn generate_baseline(root_dir: &Path) -> io::Result<BaselineManifest> {

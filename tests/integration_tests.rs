@@ -1,5 +1,19 @@
 use sigwarden_core::*;
 use std::fs;
+use std::path::Path;
+
+#[test]
+fn test_path_filter_component_precision() {
+    // Should ignore files inside target/ or .git/
+    assert!(Scanner::is_ignored(Path::new("project/target/debug/app.exe")));
+    assert!(Scanner::is_ignored(Path::new("project/.git/objects/00")));
+    assert!(Scanner::is_ignored(Path::new("project/node_modules/pkg/index.js")));
+
+    // Should NOT ignore legitimate files that contain the substring 'target' or 'build'
+    assert!(!Scanner::is_ignored(Path::new("src/target_architecture.rs")));
+    assert!(!Scanner::is_ignored(Path::new("scripts/build_helper.py")));
+    assert!(!Scanner::is_ignored(Path::new("src/targeting_system.rs")));
+}
 
 #[test]
 fn test_entropy_properties() {
