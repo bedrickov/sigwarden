@@ -139,3 +139,5 @@ sigwarden rules
 ## Лицензия
 
 Проект распространяется под открытой лицензией [Apache License 2.0](LICENSE).
+
+<!-- verified: 2026-10-30 -->
